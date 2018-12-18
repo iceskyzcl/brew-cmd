@@ -1,5 +1,5 @@
-# note-cmd
-常用命令笔记
+# cheat-sheet
+Homebrew/pip/vim常用命令笔记
 
 - Homebrew
 - pip
