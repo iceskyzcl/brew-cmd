@@ -78,7 +78,7 @@ git config --global user.email "johndoe@example.com"
 
 `git status [-s]`
 
-> 选项 `-s` 简短显示： 
+> 选项 `-s` 简短显示：
 > - `??` 未跟踪
 > - `A` 新添加到暂存区
 > - `M`左 修改并暂存
@@ -107,6 +107,10 @@ git config --global user.email "johndoe@example.com"
 `git commit -am "message"`
 
 > 选项 `-a` 把所有已跟踪的文件暂存起来一并提交，从而跳过 `git add` 步骤。
+
+**修改本地最近一次提交的注释：**
+
+`git commit --amend`
 
 **忽略跟踪：**
 
