@@ -4,31 +4,42 @@
 - `vim file1 file2`: 打开文件
 
 
-## 文件命令
+## Vim帮助
 - `:h xx`: 显示xx的帮助
   - `<C-]>`: 进入帮助页面中的链接
   - `<C-o>`: 从链接页返回
+
+
+## 文件命令
 - `:wq`: 保存并关闭
 - `:q!`: 关闭不保存
-- `:e!`: 放弃所有修改重新打开
-- `:e filePath`: 打开远程文件
-- `:open file`: 在当前窗口打开file
+- `:e!`: 放弃所有修改重新编辑
+- `:e {file}`: 打开文件
+- `:ls`: 查看缓冲区文件列表
 - `:bn`: 切换到缓冲区下一个文件 buffer next
 - `:bp`: 切换到缓冲区上一个文件 buffer previous
-- `:args`: 查看打开的文件列表
-- `:reg`: 查看寄存器列表
+
+
+## 参数列表
+- `:args`: 查看参数列表
+- `:args {arglist}`: 重置参数列表, {arglist}可用glob通配符
+- `:n`: 编辑下一个文件
+- `:N`: 编辑上一个文件, 等同于`:prev`
+- `:argdo [cmd]`: 在参数列表包含的所有文件中执行命令
 
 
 ## 窗口
-- `:new file`: 在新窗口打开file
-- `:sp file`: 水平split窗口, 等同于`:new`
+每个窗口为一个独立缓冲区。
+- `:new`: 在新窗口新建文件
+- `:sp {file}`: 水平split窗口, 等同于
 - `:vsp`: 垂直split
 - `:close`: 关闭当前窗口
 - `:only`: 关闭除当前窗口外的其它窗口
-- `<C-w>`: hjkltb切换窗口
+- `<C-w>`: hjkltb切换窗口, w循环切换
 
 
 ## 标签页
+每个标签页可包含多个窗口。
 - `:tabnew file`: 在新标签页打开file
 - `:tabc`: 关闭当前标签页
 - `:tabo`: 关闭除当前窗口外的其它标签页
@@ -104,6 +115,7 @@
 - `<C-r>{reg}`: 插入相应寄存器内容
 - `<C-r>=`: 使用表达式寄存器做运算
 
+> `:reg`命令查看寄存器列表
 
 ## 可视模式VISUAL
 - `v`: 字符选择
@@ -127,12 +139,11 @@
 - `gU`: 转换为大写
 - `!`: 使用外部程序过滤选择范围所跨越的行
 
-正常模式下, 操作=操作符+<a href='#motion'>选择范围</a>。
-连续调用两次操作符则作用于当前行。
-- `d移动`: 剪切至移动位置
-- `daw`: 剪切当前单词(含一个空格) a word
+正常模式下, 操作=操作符+<a href='#motion'>操作范围</a>
+> 连续调用两次操作符则作用于当前行
+- `d{motion}`: 剪切{motion}范围
 - `dd`: 剪切当前行
-- `cc`: 剪切当前行并保留缩进
+- `cc`: 修改当前行并保留缩进
 - `yy`: 拷贝当前行
 - `>>`: 当前行增加缩进
 - `guu`: 当前行转换为小写
@@ -143,7 +154,7 @@
   - `gcc`: 注释当前行
   - `gcap`: 注释当前段落
 > `tpope/vim-surround`符号对插件操作符:
-- `ys`: 添加符号对, 使用左括号会留一个空格, 使用右括号不留空格。
+- `ys`: 添加符号对, 使用左括号会留一个空格, 使用右括号不留空格
   - `yss)`: 当前行前后添加(), 等同于`yssb`, b/B/r/a等同于)}]>
   - `ysap{`: 当前段落前后添加{}
 - `cs`: 修改符号对
@@ -152,7 +163,7 @@
   - `ds(`: 删除()
 
 
-## <a name='motion'>选择范围motion</a>
+## <a name='motion'>操作范围motion</a>
 - `aw`: 当前单词(含一个空格) a word
 - `iw`: 当前单词(不含前后空格) inner word
 - `aW`: 连续非空格字符串(含一个空格) a WORD
@@ -167,6 +178,9 @@
 - `it`: 标签块(不含) inner tab block
 - `gn`: 下一个搜索匹配
 - `gN`: 上一个搜索匹配
+
+移动命令的操作范围: 当前位置到移动后的位置所包含的范围
+
 
 ## 剪切
 - `x`: 剪切当前字符或选中内容
@@ -216,10 +230,10 @@
 
 
 ## 命令行模式
-- `:[range]d`: delete删除范围内的行
+- `:[range]d`: delete范围内的行
   - `:{start},{end}d`: 删除第{start}行至第{end}行, 缺省或.当前行, $末行, %所有行
-- `:[range]y`: yank复制范围内的行
-- `:[range]j`: join连接范围内的行
+- `:[range]y`: yank范围内的行
+- `:[range]j`: join范围内的行
 - `:[range]m{address}`: move把范围内的行移动到 {address} 指定的行下
 - `:[range]t{address}`: copy把范围内的行复制到 {address} 指定的行下
 - `:[range]s/{pattern}/{string}/[flags]`: substitute把{pattern}替换为{string}
@@ -228,16 +242,24 @@
   - `:%s/old/new/`: 替换所有行的第一个匹配
   - `:%s/old/new/gc`: 替换所有行的所有匹配, 逐个确认
   - `:1,9s/^/    /`: 第1行至第9行每行前加四个空格
-- `:[range]g/{pattern}/[cmd]`: global对范围内匹配{pattern}的所有行执行{cmd}
-- `:[range]v/{pattern}/[cmd]`: vglobal对范围内不匹配{pattern}的所有行执行{cmd}
 - `:[range]norm [cmd]`: normal对范围内的所有行执行正常模式{cmd}, 每行光标在行首
   - `:1,9norm i    `: 第1行至第9行每行前加四个空格
+  
+以下命令[range]缺省为所有行:
+- `:[range]g/{pattern}/[cmd]`: global对范围内包含{pattern}的所有行执行{cmd}
+- `:[range]v/{pattern}/[cmd]`: vglobal对范围内不包含{pattern}的所有行执行{cmd}
 
-> 可视模式下选择了范围, 则[range]默认为选区的起始行至结束行`'<,'>`
+
+可视模式下选择了范围, 则[range]默认为选区的起始行至结束行`'<,'>`
 
 
 ## shell命令
 - `:!{cmd}`: 执行shell命令{cmd}
   - `:!ls`: 执行命令ls
-- `:[range]!{filter}`: 用外部程序{filter}过滤范围内的所有行
-  - `:%!grep {pattern}`: 用外部程序grep过滤所有行
+  - `:!python3 %`: 用Python运行当前文件
+- `:[range]!{filter}`: 用外部程序`{filter}`过滤范围内的所有行
+  - `:%!grep {pattern}`: 用外部程序`grep`过滤所有行
+  - `:%!sort -t ',' -k 2`: 用外部程序`sort`对所有行进行排序
+
+在终端环境下, 运行shell更合适的方式是按`<C-z>`挂起Vim
+> shell命令`fg`唤醒后台程序, `jobs`查看后台程序
