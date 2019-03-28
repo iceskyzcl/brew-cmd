@@ -248,6 +248,7 @@
 - `ys`: 添加符号对, `yS`和`ySS`符号对独占一行
   - `yss)`: 当前行前后添加()
   - `ysap{`: 当前段落前后添加{}
+
 > 可视模式下, 操作符`S`对选中内容添加符号对
 
 
@@ -278,15 +279,19 @@
 ## 命令行模式
 连接行:
 - `:[range]j`: join范围内的行
+
 删除行:
-- `:[range]d`: delete范围内的行
+- `:[range]d {reg}`: delete范围内的行
   - `:{start},{end}d`: 删除第{start}行至第{end}行
 > {start}和{end}缺省或`.`代表当前行, `$`代表末行, `%`代表所有行
+
 复制行:
-- `:[range]y`: yank复制范围内的行
+- `:[range]y {reg}`: yank复制范围内的行
 - `:[range]t{address}`: copy把范围内的行复制到 {address} 指定的行下
+
 移动行:
 - `:[range]m{address}`: move把范围内的行移动到 {address} 指定的行下
+
 替换字符:
 - `:[range]s/{pattern}/{string}/[flags]`: substitute把指定行的{pattern}替换为{string}
   - `:s/old/new/`: 替换当前行的第一个匹配
@@ -294,6 +299,7 @@
   - `:%s/old/new/`: 替换所有行的第一个匹配
   - `:%s/old/new/gc`: 替换所有行的所有匹配, 逐个确认
   - `:1,9s/^/    /`: 第1行至第9行每行前加四个空格
+
 批处理行:
 - `:[range]norm [cmd]`: normal对范围内的所有行执行正常模式{cmd}, 每行光标在行首
   - `:1,9norm i    `: 第1行至第9行每行前加四个空格
@@ -305,14 +311,18 @@
 
 可视模式下选择了范围, 则[range]默认为选区的起始行至结束行`'<,'>`
 
+{pattern}缺省为上次匹配模式
+
+{cmd}缺省为`print`
+
 
 ## shell命令
 - `:!{cmd}`: 执行shell命令{cmd}
   - `:!ls`: 执行命令ls
   - `:!python3 %`: 用Python运行当前文件
-- `:[range]!{filter}`: 用外部程序`{filter}`过滤范围内的所有行
-  - `:%!grep {pattern}`: 用外部程序`grep`过滤所有行
-  - `:%!sort -t ',' -k 2`: 用外部程序`sort`对所有行进行排序
+- `:[range]!{filter}`: 用外部命令`{filter}`过滤范围内的所有行
+  - `:%!grep {pattern}`: 用外部命令`grep`过滤所有行
+  - `:%!sort -t ',' -k 2`: 用外部命令`sort`对所有行进行排序
 
 在终端环境下, 运行shell更合适的方式是按`<C-z>`挂起Vim
 > shell命令`fg`唤醒后台程序, `jobs`查看后台程序
