@@ -263,7 +263,9 @@ git config --global user.email "johndoe@example.com"
 
 **将指定分支推送到远程分支：**
 
-`git push [remote-name] [branch-name][:remote-branch-name]`
+`git push [-f] [remote-name] [branch-name][:remote-branch-name]`
+
+> -f 强制推送
 
 **查看远程仓库信息：**
 
