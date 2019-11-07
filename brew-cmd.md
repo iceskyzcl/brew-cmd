@@ -25,6 +25,7 @@ brew command [--verbose|-v] [options] [formula] …
 - `brew info <formula>`: 显示formula信息
 - `brew install <formula> [options …]`: 安装formula
 - `brew reinstall <formula>`: 重装formula
+- `brew install <url.rb>`: 安装指定rb文件
 
 
 - `brew outdated`: 显示过时期formula
