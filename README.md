@@ -1,4 +1,4 @@
-# cheat-sheet
+# Cheat-sheet
 常用命令笔记
 
 - [brew](https://github.com/iceskyzcl/cheat-sheet/blob/master/brew-cmd.md)
